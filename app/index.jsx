@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
+import { ScrollView, Text, View, Image } from 'react-native';
 import { Redirect, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../constants'
@@ -13,7 +13,7 @@ export default function App() {
         alwaysBounceVertical={true}
       >
         <View className = "w-full justify-center items-center min-h-[95vh] px-4">
-          <Image 
+          <Image
             source = { images.logo }
             className = "w-[130px] h-[84px]"
             resizeMode = 'contain'

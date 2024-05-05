@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, Alert } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
@@ -6,6 +6,29 @@ import FormField from '../../components/FormField'
 import { useState } from 'react'
 import CustomButton from '../../components/CustomButton'
 import { Link } from 'expo-router'
+import { signIn } from '../../lib/appwrite'
+
+const validateSignIn = (email, password) => {
+  var result = {
+    success: false,
+    errorMsg: ''
+  }
+
+  if (!email || !password) {
+     result.errorMsg = 'Please fill in all the fields'
+     return result
+  }
+
+  var emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+
+  if(!emailRegex.test(email)) {
+    result.errorMsg =  'Please write a valid email'
+    return result
+  }
+
+  result.success = true
+  return result
+}
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -15,7 +38,26 @@ const SignIn = () => {
 
   const [isSubmitting, setisSubmitting] = useState()
 
-  const submit = () => {}
+  const submit = async () => {
+
+    var result = validateSignIn(form.email, form.password)
+
+    if(!result.success) {
+      Alert.alert('Error', result.errorMsg)
+      return
+    }
+
+    setisSubmitting(true)
+
+    try {
+      const result = await signIn(form.email, form.password);
+
+      router.replace('/home')
+    } catch (error) {
+      Alert.alert('Error', error.message)
+    }
+  }
+
 
   return (
    <SafeAreaView
