@@ -6,7 +6,7 @@ import FormField from '../../components/FormField'
 import { useState } from 'react'
 import CustomButton from '../../components/CustomButton'
 import { Link, router } from 'expo-router'
-import { createUser } from '../../lib/appwrite'
+import { createUser, signIn } from '../../lib/appwrite'
 
 const validateSignUp = (email, password, confirmPassword) => {
   var result = {
@@ -41,6 +41,8 @@ const validateSignUp = (email, password, confirmPassword) => {
 }
 
 const SignUp = () => {
+  const { setUser, setIsLoggedIn } = useGlobalContext();
+  
   const [form, setForm] = useState({
     email : '',
     password : '',
@@ -62,6 +64,11 @@ const SignUp = () => {
 
     try {
       const result = await createUser(form.email, form.password);
+      await signIn(form.email, form.password)
+      // const result2 = await getCurrentUser();
+
+      setUser(result)
+      setIsLoggedIn(true)
 
       router.replace('/home')
     } catch (error) {
