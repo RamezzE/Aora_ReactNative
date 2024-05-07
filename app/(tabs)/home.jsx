@@ -13,6 +13,8 @@ const Home = () => {
 
   const { data: posts, refetch } = useAppwrite(getAllPosts)
 
+  const { data: latestPosts } = useAppwrite(getAllPosts)
+
 
   const [refreshing, setRefreshing] = useState(false)
 
@@ -60,7 +62,7 @@ const Home = () => {
             <View className = 'w-full flex-1 '>
               <Text className = 'text-gray-100 text-lg font-pregular mb-3'>Latest Videos</Text>
               <Trending 
-                posts = {[{id: 1}, {id: 2}] ?? {}}
+                posts = { latestPosts ?? {}}
               />
             </View>
           </View>
