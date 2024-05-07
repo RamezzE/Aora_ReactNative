@@ -7,6 +7,7 @@ import EmptyState from '../../components/EmptyState'
 import { useState, useEffect } from 'react'
 import { getAllPosts } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
+import VideoCard from '../../components/VideoCard'
 
 const Home = () => {
 
@@ -27,9 +28,11 @@ const Home = () => {
     <SafeAreaView className = 'bg-primary h-full'>
       <FlatList 
         data = {posts}
-        keyExtractor = {(item) => item.$id }
+        keyExtractor = {(item) => item.$id}
         renderItem = {({ item }) => (
-          <Text className = 'text-3xl text-white'>{item.title}</Text>
+          <VideoCard 
+            video = {item}
+          />
         )}
         ListHeaderComponent={() => (
           <View className = 'my-6 px-4 space-y-6'>
@@ -49,7 +52,7 @@ const Home = () => {
             
             <SearchInput 
               placeholder = 'Search for a video topic'
-              handleChangeText = ''
+              // handleChangeText = 
               otherStyles = ''
               
             />
